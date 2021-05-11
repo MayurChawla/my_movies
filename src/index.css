@@ -100,3 +100,36 @@ header .site-name {
 .tag.red {
   color: red;
 }
+.bars-to-pages {
+  display: block;
+  margin: auto;
+  width: 60%;
+}
+.movie-pages {
+  background-color: #222b85;
+  text-align: center;
+  color: white;
+  padding: 1rem;
+  border-radius: 2rem;
+}
+.movie-pages pgnumber {
+  border-radius: 5px;
+  font-weight: bold;
+  padding: 0.5rem;
+}
+.page-change{
+  background-color: transparent;
+  border :0;
+  color:red;
+  font-size: medium;
+  padding: 0.5rem;
+}
+.footer {
+  margin-top: 1rem;
+  background-color: #222b85;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  border-top-left-radius: 2rem;
+  border-top-right-radius: 2rem;
+}
