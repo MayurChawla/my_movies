@@ -15,12 +15,13 @@ body {
 }
 header {
   background-color: #222b85;
-  padding: 1rem;
+  padding: 2rem;
   display: flex;
   justify-content: space-between;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
 }
 header .site-name {
-  /* align-self: flex-start; */
   margin: 0;
 }
 .searchbar {

@@ -25,6 +25,7 @@ function App() {
     {
       GetMovies(SEARCH_API+searchTerm);
       setSearchTerm("");
+      setPageNumber(1);
     }
   };
   const onChangeHandler = (e) => {
