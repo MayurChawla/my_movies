@@ -47,6 +47,11 @@ function App() {
         <GetMovie key={movie.id} {...movie}/>
       ))}
     </div>
+    <footer>
+      <a> "prev" </a>
+          pagenumber
+      <a> "next" </a>
+    </footer>
     </>
   );
 }
