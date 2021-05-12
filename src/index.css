@@ -135,3 +135,15 @@ header .site-name {
   border-top-left-radius: 2rem;
   border-top-right-radius: 2rem;
 }
+.sort-by-div {
+  margin: auto;
+}
+.sort-by-dropdown {
+  border-radius: 0.5rem;
+  font-size: medium;
+  padding: 0.3rem;
+}
+.sort-by-button {
+  margin-left: 1rem;
+  padding: 0.3rem 0.5rem;
+}

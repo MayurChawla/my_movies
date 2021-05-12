@@ -9,6 +9,7 @@ function App() {
   const [movies_array, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [pageNumber, setPageNumber] = useState(1);
+  const [sortVariable, setSortVarialble] = useState("desc");
   useEffect(() => {
     GetMovies(FEATURED_API);
   }, []);
@@ -64,10 +65,40 @@ function App() {
     setSearchTerm("");
     setPageNumber(1);
   }
+  const dropDownChange = (e) => {
+    console.log(e.target.value);
+    GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+e.target.value+".aesc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+  }
+   const sortChangeHandler = () => {
+     //console.log("sortVariable : " + sortVariable);
+     if(sortVariable === "desc")
+     {
+        setSortVarialble("aesc");
+        console.log("sortVariable : " + sortVariable);
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.aesc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+     }
+     else{
+        setSortVarialble("desc");
+        console.log("sortVariable : " + sortVariable);
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+     }
+   }
   return (
     <>
     <header>
         <h2 className="site-name"><span onClick={siteClicked}>My Movies</span></h2>
+        <div className="sort-by-div">
+          <select className="sort-by-dropdown" onChange={dropDownChange}>
+            <option value="popularity">popularity</option>
+            <option value="yearrelease">year release</option>
+            <option value="runtime">runtime</option>
+            <option value="alphabetical">alphabetical</option>
+            <option value="numberofvotes">number of votes</option>
+            <option value="releasedate">release date</option>
+          </select>
+          <button className="sort-by-button" onClick={sortChangeHandler}>&#8693;</button>
+        </div>
+        
         <form action="" onSubmit={onSubmitHandler}>
           <input type="search" placeholder="search..." className="searchbar"
             value={searchTerm} onChange={onSearchHandler}
