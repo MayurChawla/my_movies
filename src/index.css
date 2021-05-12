@@ -23,6 +23,7 @@ header {
 }
 header .site-name {
   margin: 0;
+  cursor: pointer;
 }
 .searchbar {
   border : 2px solid whitesmoke;
