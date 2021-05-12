@@ -5,7 +5,6 @@ const FEATURED_API = "https://api.themoviedb.org/3/discover/movie?sort_by=popula
 
 const SEARCH_API =  "https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=";
 
-
 function App() {
   const [movies_array, setMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,28 +23,45 @@ function App() {
     if(searchTerm)
     {
       GetMovies(SEARCH_API+searchTerm);
-      setSearchTerm("");
+      // setSearchTerm("");
       setPageNumber(1);
     }
   };
-  const onChangeHandler = (e) => {
+  const onSearchHandler = (e) => {
     setSearchTerm(e.target.value);
   }
   const prevPage = () => {
     if(pageNumber >1)
     {
       const pg = pageNumber-1;
+      console.log("search : " +searchTerm);
       setPageNumber(pg);
-      GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+      if(searchTerm)
+      {
+        GetMovies(SEARCH_API+searchTerm+"&page="+pg);
+      }
+      else
+      {
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+      }
     }
   }
   const nextPage = () => {
     const pg = pageNumber+1;
+    console.log("search : " +searchTerm);
     setPageNumber(pg);
-    GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+      if(searchTerm)
+      {
+        GetMovies(SEARCH_API+searchTerm+"&page="+pg);
+      }
+      else
+      {
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+      }
   }
   const siteClicked = () => {
     GetMovies(FEATURED_API);
+    setSearchTerm("");
     setPageNumber(1);
   }
   return (
@@ -54,7 +70,7 @@ function App() {
         <h2 className="site-name"><span onClick={siteClicked}>My Movies</span></h2>
         <form action="" onSubmit={onSubmitHandler}>
           <input type="search" placeholder="search..." className="searchbar"
-            value={searchTerm} onChange={onChangeHandler}
+            value={searchTerm} onChange={onSearchHandler}
           ></input>
         </form>
       </header>
