@@ -7,9 +7,12 @@ const SEARCH_API =  "https://api.themoviedb.org/3/search/movie?&api_key=04c35731
 
 function App() {
   const [movies_array, setMovies] = useState([]);
+  
   const [searchTerm, setSearchTerm] = useState("");
+  const [dropDownValue, setDropDownValue] = useState("popularity");
   const [pageNumber, setPageNumber] = useState(1);
   const [sortVariable, setSortVarialble] = useState("desc");
+  
   useEffect(() => {
     GetMovies(FEATURED_API);
   }, []);
@@ -17,17 +20,26 @@ function App() {
   const GetMovies = (API) => {
     fetch(API).then(res => res.json()).then(data => {
       setMovies(data.results);
-    });
+    })
   };
   const onSubmitHandler = (e) => {
     e.preventDefault();
     if(searchTerm)
     {
       GetMovies(SEARCH_API+searchTerm);
-      // setSearchTerm("");
       setPageNumber(1);
+      setDropDownValue("popularity");
+      setSortVarialble("desc");
     }
   };
+  const siteClicked = () => {
+    GetMovies(FEATURED_API);
+    setSearchTerm("");
+    setPageNumber(1);
+    setDropDownValue("popularity");
+    setSortVarialble("desc");
+  }
+
   const onSearchHandler = (e) => {
     setSearchTerm(e.target.value);
   }
@@ -35,66 +47,110 @@ function App() {
     if(pageNumber >1)
     {
       const pg = pageNumber-1;
-      console.log("search : " +searchTerm);
       setPageNumber(pg);
-      if(searchTerm)
+      if(sortVariable==="desc")
       {
-        GetMovies(SEARCH_API+searchTerm+"&page="+pg);
+        if(searchTerm)
+        {
+          GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+dropDownValue+".desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg+"&query="+searchTerm);
+        }
+        else {
+          GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        }
       }
-      else
+      else if(sortVariable==="asce")
       {
-        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        if(searchTerm)
+        {
+          GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+dropDownValue+".asce&api_key=04c35731a5ee918f014970082a0088b1&page="+pg+"&query="+searchTerm);
+        }
+        else {
+          GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".asce&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        }
       }
     }
   }
   const nextPage = () => {
     const pg = pageNumber+1;
-    console.log("search : " +searchTerm);
     setPageNumber(pg);
-      if(searchTerm)
+    if(sortVariable==="desc")
       {
-        GetMovies(SEARCH_API+searchTerm+"&page="+pg);
+        if(searchTerm)
+        {
+          GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+dropDownValue+".desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg+"&query="+searchTerm);
+        }
+        else {
+          GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        }
       }
-      else
+      else if(sortVariable==="asce")
       {
-        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        if(searchTerm)
+        {
+          GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+dropDownValue+".asce&api_key=04c35731a5ee918f014970082a0088b1&page="+pg+"&query="+searchTerm);
+        }
+        else {
+          GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".asce&api_key=04c35731a5ee918f014970082a0088b1&page="+pg);
+        }
       }
-  }
-  const siteClicked = () => {
-    GetMovies(FEATURED_API);
-    setSearchTerm("");
-    setPageNumber(1);
   }
   const dropDownChange = (e) => {
-    console.log(e.target.value);
-    GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+e.target.value+".aesc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+    setDropDownValue(e.target.value);
+    if(searchTerm)
+    {
+      console.log("search tern exists");
+      GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+e.target.value+".desc&api_key=04c35731a5ee918f014970082a0088b1&query="+searchTerm);
+    }
+    else {
+      GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+e.target.value+".desc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+    }
+    setSearchTerm(searchTerm);
+    setPageNumber(1);
+    setSortVarialble("desc");
+    console.log("search term : " + searchTerm + " Dropdown_value : " +  e.target.value + " pageNumber : " + 1 + " sortVariable : desc");
   }
-   const sortChangeHandler = () => {
-     //console.log("sortVariable : " + sortVariable);
-     if(sortVariable === "desc")
-     {
-        setSortVarialble("aesc");
-        console.log("sortVariable : " + sortVariable);
-        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.aesc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
-     }
-     else{
-        setSortVarialble("desc");
-        console.log("sortVariable : " + sortVariable);
-        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
-     }
-   }
+  const sortChangeHandler = () => {
+    setDropDownValue(dropDownValue);
+    setPageNumber(1);
+    //setSearchTerm(searchTerm);
+    if(sortVariable === "desc")
+    {
+      setSortVarialble("aesc");
+      if(searchTerm)
+      {
+        //SEARCH URL
+        GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+searchTerm+".asce&api_key=04c35731a5ee918f014970082a0088b1&page=1&query="+searchTerm);
+      }
+      else{
+        //DISCOVER URL
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".asce&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+      }
+      console.log("search term : " + searchTerm + " Dropdown_value : " +  dropDownValue + " pageNumber : "+ 1 +" sortVariable : asce");
+    }
+    else{
+      setSortVarialble("desc");
+      if(searchTerm)
+      {
+        GetMovies("https://api.themoviedb.org/3/search/movie?sort_by="+searchTerm+".desc&api_key=04c35731a5ee918f014970082a0088b1&page=1&query="+searchTerm);
+      }
+      else{
+        GetMovies("https://api.themoviedb.org/3/discover/movie?sort_by="+dropDownValue+".desc&api_key=04c35731a5ee918f014970082a0088b1&page=1");
+      }
+      console.log("search term : " + searchTerm + " Dropdown_value : " +  dropDownValue + " pageNumber : "+ 1 +" sortVariable : desc");
+    }
+  }
+  
   return (
     <>
     <header>
         <h2 className="site-name"><span onClick={siteClicked}>My Movies</span></h2>
         <div className="sort-by-div">
           <select className="sort-by-dropdown" onChange={dropDownChange}>
-            <option value="popularity">popularity</option>
-            <option value="yearrelease">year release</option>
-            <option value="runtime">runtime</option>
-            <option value="alphabetical">alphabetical</option>
-            <option value="numberofvotes">number of votes</option>
-            <option value="releasedate">release date</option>
+          <option value="popularity">popularity</option>
+            <option value="title">alphabetical</option>
+            <option value="vote_average">average rating</option>
+            <option value="vote_count">number of votes</option>
+            <option value="release_date">release date</option>
           </select>
           <button className="sort-by-button" onClick={sortChangeHandler}>&#8693;</button>
         </div>
